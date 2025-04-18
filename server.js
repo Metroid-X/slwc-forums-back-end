@@ -1,10 +1,13 @@
 // Dependencies
-const dotenv = require('dotenv');
-dotenv.config();
+const { config } = require('dotenv');
+config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
+const { setRoute } = require('./homebrew-funcs.js');
+// const setRoute = homebrew.setRoute;
+const authController = require('./controllers/auth.js')
 
 const app = express();
 const port = process.env.PORT || 3000; 
@@ -25,8 +28,23 @@ app.use(logger('dev'));
 // Routers
 
 app.get('/', (req,res) => {
-    res.send('Everything is operational');
+    const backendInterface = `
+        <style> ul {list-style: '  -  ';} li { margin: 8px 0; } </style>
+        <h2>Everything is operational</h2>
+        <ul>
+            ${setRoute('users', 2)}
+            ${setRoute('auth', 2)}
+            ${setRoute('forum', 2)}
+            ${setRoute('gallery', 2)}
+        </ul>
+    `
+    res.send(backendInterface);
 });
+
+app.use('/auth', authController)
+
+
+
 
 app.listen(port, () => {
     console.log(`Express backend is listening on port ${Number(port)}`);
