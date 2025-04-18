@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const router = Router();
+const { setRoute } = require('../homebrew-funcs.js');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
