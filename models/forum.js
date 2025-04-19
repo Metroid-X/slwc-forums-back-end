@@ -5,12 +5,22 @@ const { Schema , model } = require('../homebrew-funcs.js');
 
 
 const CommentSchema = new Schema({
-    ownerId: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
     attatchedImages: [String],
+    forumId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Forum',
+        required: true,
+    },
+    topicId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true,
+    },
 });
 
 CommentSchema.set('toJSON', {});
@@ -18,7 +28,7 @@ CommentSchema.set('toJSON', {});
 const Comment = model('Comment', CommentSchema);
 
 const TopicSchema = new Schema({
-    ownerId: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
@@ -29,6 +39,11 @@ const TopicSchema = new Schema({
         ref: 'Comment',
         required: true,
     }],
+    forumId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Forum',
+        required: true,
+    },
 });
 
 TopicSchema.set('toJSON', {});
@@ -36,7 +51,7 @@ TopicSchema.set('toJSON', {});
 const Topic = model('Topic', TopicSchema);
 
 const ForumSchema = new Schema({
-    ownerId: {
+    adminId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
