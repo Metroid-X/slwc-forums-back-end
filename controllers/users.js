@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const app = express();
 
 const { User } = require('../models/user');
+const { Profile } = require('../models/user');
 
 const verifyToken = require('../middleware/verify-token');
 
-router.get('/', verifyToken, async (req,res) => {
+router.get('/', /*verifyToken,*/ async (req,res) => {
     try {
-        const users = await User.find({}, 'username');
+        const users = await User.find({}, 'commentsPosted topicsPosted username profile linkedImages');
 
         res.json(users);
     } catch (err) {
@@ -32,5 +34,7 @@ router.get('/:userId', verifyToken, async (req,res) => {
         res.status(500).json({ err: err.message });
     }
 });
+
+
 
 module.exports = router;

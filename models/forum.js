@@ -10,8 +10,12 @@ const CommentSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    attatchedImages: [String]
+    attatchedImages: [String],
 });
+
+CommentSchema.set('toJSON', {});
+
+const Comment = model('Comment', CommentSchema);
 
 const TopicSchema = new Schema({
     ownerId: {
@@ -20,8 +24,16 @@ const TopicSchema = new Schema({
         required: true,
     },
     attatchedImages: [String],
-    comments: [CommentSchema],
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        required: true,
+    }],
 });
+
+TopicSchema.set('toJSON', {});
+
+const Topic = model('Topic', TopicSchema);
 
 const ForumSchema = new Schema({
     ownerId: {
@@ -29,18 +41,15 @@ const ForumSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    topics: [TopicSchema],
+    topics: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true,
+    }],
 });
-
-
-CommentSchema.set('toJSON', {});
-
-TopicSchema.set('toJSON', {});
 
 ForumSchema.set('toJSON', {});
 
-const Comment = model('Comment', CommentSchema);
-const Topic = model('Topic', TopicSchema);
 const Forum = model('Forum', ForumSchema);
 
 module.exports = { Forum, ForumSchema, Topic, TopicSchema, Comment, CommentSchema };

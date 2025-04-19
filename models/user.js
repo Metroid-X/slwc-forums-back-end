@@ -4,6 +4,32 @@ const { ImageSchema } = require('./image.js');
 const { TopicSchema , CommentSchema } = require('./forum.js');
 
 
+const ProfileSchema = new Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    bio: {
+        type: String,
+        required: false,
+        default: 'User has not yet written their bio...',
+    },
+    avatar: {
+        type: String,
+        required: true,
+        default: '/imgs/default_pfp.png',
+    },
+})
+
+ProfileSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+    }
+});
+
+const Profile = model('Profile', ProfileSchema);
+
+
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -13,6 +39,31 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    profile: {
+        type: Schema.Types.ObjectId,
+        ref: 'Profile',
+        required: true,
+    },
+    topicsPosted: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true,
+    }],
+    commentsPosted: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        required: true,
+    }],
+    linkedImages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Image',
+        required: true,
+    }],
 })
 
 
@@ -23,23 +74,5 @@ UserSchema.set('toJSON', {
 });
 
 const User = model('User', UserSchema);
-
-const ProfileSchema = new Schema({
-    ownerId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-    },
-    bio: {
-        type: String,
-        required: false,
-        default: '',
-    },
-
-})
-
-ProfileSchema.set('toJSON', {
-});
-
-const Profile = model('Profile', ProfileSchema);
 
 module.exports = { User, UserSchema, Profile, ProfileSchema };

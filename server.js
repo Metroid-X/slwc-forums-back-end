@@ -8,6 +8,8 @@ const logger = require('morgan');
 const { setRoute } = require('./homebrew-funcs.js');
 // const setRoute = homebrew.setRoute;
 const authController = require('./controllers/auth.js')
+const userController = require('./controllers/users.js')
+const profileController = require('./controllers/profiles.js')
 
 const app = express();
 const port = process.env.PORT || 3000; 
@@ -33,6 +35,7 @@ app.get('/', (req,res) => {
         <h2>Everything is operational</h2>
         <ul>
             ${setRoute('users', 2)}
+            ${setRoute('profiles', 2)}
             ${setRoute('auth', 2)}
             ${setRoute('forum', 2)}
             ${setRoute('gallery', 2)}
@@ -41,7 +44,9 @@ app.get('/', (req,res) => {
     res.send(backendInterface);
 });
 
-app.use('/auth', authController)
+app.use('/auth', authController);
+app.use('/users', userController);
+app.use('/profiles', profileController);
 
 
 
