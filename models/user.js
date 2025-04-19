@@ -38,9 +38,6 @@ const ProfileSchema = new Schema({
 })
 
 ProfileSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-
-    }
 });
 
 const Profile = model('Profile', ProfileSchema);
