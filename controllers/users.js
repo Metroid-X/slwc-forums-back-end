@@ -7,7 +7,7 @@ const { Profile } = require('../models/user');
 
 const verifyToken = require('../middleware/verify-token');
 
-router.get('/', /*verifyToken,*/ async (req,res) => {
+router.get('/', verifyToken, async (req,res) => {
     try {
         const users = await User.find({}, 'username profile');
 
