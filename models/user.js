@@ -18,7 +18,27 @@ const ProfileSchema = new Schema({
     avatar: {
         type: String,
         required: true,
-        default: '/imgs/default_pfp.png',
+        default: 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg',
+    },
+    topicsPosted: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true,
+    }],
+    commentsPosted: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        required: true,
+    }],
+    linkedImages: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Image',
+        required: true,
+    }],
+    catchphrase: {
+        type: String,
+        required: false,
+        default: '',
     },
 })
 
@@ -49,21 +69,6 @@ const UserSchema = new Schema({
         ref: 'Profile',
         required: true,
     },
-    topicsPosted: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Topic',
-        required: true,
-    }],
-    commentsPosted: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment',
-        required: true,
-    }],
-    linkedImages: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Image',
-        required: true,
-    }],
 })
 
 

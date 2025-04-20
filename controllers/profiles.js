@@ -9,9 +9,9 @@ const verifyToken = require('../middleware/verify-token');
 
 router.get('/', verifyToken, async (req,res) => {
     try {
-        const users = await User.find({}, 'commentsPosted topicsPosted username profile linkedImages');
+        const users = await User.find({}, 'username profile');
 
-        const profiles = await Profile.find({}, 'userId bio avatar');
+        const profiles = await Profile.find({}, 'userId bio avatar linkedImages commentsPosted topicsPosted catchphrase');
 
         res.json(profiles);
     } catch (err) {
