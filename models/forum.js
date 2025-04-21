@@ -95,6 +95,10 @@ const TopicSchema = new Schema({
             required: true,
         }
     ],
+    forumName: {
+        type: String,
+        required: true,
+    },
 });
 
 TopicSchema.set('toJSON', {});

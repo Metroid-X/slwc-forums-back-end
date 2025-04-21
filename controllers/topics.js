@@ -4,7 +4,7 @@ const app = express();
 
 const { User } = require('../models/user');
 const { Profile } = require('../models/user');
-const { Topic, Comment } = require('../models/forum');
+const { Topic, Comment, Forum } = require('../models/forum');
 const { Image } = require('../models/image');
 const verifyToken = require('../middleware/verify-token');
 
@@ -17,14 +17,27 @@ router.get('/', async (req,res) => {
     }
 });
 
-router.post('/:branchId/new', verifyToken, async (req, res) => {
+router.post('/new', verifyToken, async (req, res) => {
     try {
 
+        const forums = await Forum.find();
+        let forumName
+        forums.forEach(forum => {
+            forumName = String(forum.name).toLowerCase().replaceAll(' ','-') === req.body.forumName ? (
+                forum.name
+            ) : (
+                forumName
+            );
+        });
+
+        const forum = await Forum.findOne({name: forumName});
+        
         const topic = await Topic.create({
             userId: req.user.profile,
             title: req.body.title,
             description: req.body.desc,
-            forumId: req.params.branchId,
+            forumId: forum._id,
+            forumName: req.body.forumName,
             datePosted: Date.now(),
             usersFollowing: (req.body.followThis ? ( [req.user.profile] ) : ( [] )),
         });
@@ -57,12 +70,13 @@ router.post('/:branchId/new', verifyToken, async (req, res) => {
             });
 
             topic.comments = [bodyComment._id];
+            
+            forum.topics.push(topic._id);
 
             if (bodyComment && topic.comments) {
-                res.status(201).json({});
+                res.status(201).json(topic);
             };
         };
-        
     } catch (err) {
         res.status(500).json({ err: err.message });
     };
