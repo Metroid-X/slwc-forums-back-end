@@ -3,11 +3,10 @@ const router = express.Router();
 const app = express();
 
 const { User } = require('../models/user');
-const { Profile } = require('../models/user');
 
 const verifyToken = require('../middleware/verify-token');
 
-router.get('/', verifyToken, async (req,res) => {
+router.get('/', async (req,res) => {
     try {
         const users = await User.find({}, 'username profile');
 

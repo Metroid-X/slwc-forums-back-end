@@ -6,7 +6,7 @@ const { ForumSchema , TopicSchema , CommentSchema } = require('./forum.js');
 const ImageSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Profile',
         required: true,
     },
     forumId: {

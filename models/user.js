@@ -10,15 +10,19 @@ const ProfileSchema = new Schema({
         ref: 'User',
         required: true,
     },
+    profileCompleted: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
     displayName: {
         type: String,
-        required: true,
+        required: false,
         default: '',
     },
     bio: {
         type: String,
         required: false,
-        default: 'User has not yet written their bio...',
     },
     avatar: {
         type: String,
@@ -43,8 +47,22 @@ const ProfileSchema = new Schema({
     catchphrase: {
         type: String,
         required: false,
-        default: '',
     },
+    followers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Profile',
+        required: true,
+    }],
+    following: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Profile',
+        required: true,
+    }],
+    followedTopics: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true,
+    }],
 })
 
 ProfileSchema.set('toJSON', {

@@ -41,16 +41,18 @@ router.post('/sign-up', async (req, res) => {
 
         const profile = await Profile.create({
             userId: user._id,
+            displayName
         });
 
         user.profile = profile._id;
-    
-        const payload = { username: user.username, _id: user._id, profile_id: profile._id };
-    
-        const token = jwt.sign({ payload }, process.env.JWT_SECRET);
+        
         if (user.profile === profile._id) {
+            const payload = { username: user.username, _id: user._id, profile_id: user.profile };
+        
+            const token = jwt.sign({ payload }, process.env.JWT_SECRET);
+
             res.status(201).json({ token });
-        }    ;
+        };
         
     } catch (err) {
         res.status(500).json({ err: err.message });
@@ -61,8 +63,7 @@ router.post('/sign-in', async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username });
 
-
-
+        
         if (!user) {
             return res.status(401).json({ err: 'Invalid credentials.' });
         };
@@ -71,21 +72,11 @@ router.post('/sign-in', async (req, res) => {
             req.body.password, user.hashedPassword
         );
 
-
-        if (isPasswordCorrect && !user.profile) {
-            const profile = await Profile.create({
-                userId: user._id,
-            });
-    
-            user.profile = profile._id;    
-        }
-
-
         if (!isPasswordCorrect) {
             return res.status(401).json({ err: 'Invalid credentials.' });
         };
     
-        const payload = { username: user.username, _id: user._id };
+        const payload = { username: user.username, _id: user._id, profile_id: user.profile };
     
         const token = jwt.sign({ payload }, process.env.JWT_SECRET);
     

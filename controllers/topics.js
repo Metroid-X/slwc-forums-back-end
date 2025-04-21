@@ -4,12 +4,12 @@ const app = express();
 
 const { User } = require('../models/user');
 const { Profile } = require('../models/user');
-const { Forum } = require('../models/forum');
+const { Topic } = require('../models/forum');
 
 router.get('/', async (req,res) => {
     try {
-        const forums = await Forum.find()
-        res.json(forums);
+        const topics = await Topic.find()
+        res.json(topics);
     } catch (err) {
         res.status(500).json({ err: err.message });
     }

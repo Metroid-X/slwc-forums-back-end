@@ -10,6 +10,9 @@ const { setRoute } = require('./homebrew-funcs.js');
 const authController = require('./controllers/auth.js')
 const userController = require('./controllers/users.js')
 const profileController = require('./controllers/profiles.js')
+const forumController = require('./controllers/forums.js')
+const topicController = require('./controllers/topics.js')
+const commentController = require('./controllers/comments.js')
 
 const app = express();
 const port = process.env.PORT || 3000; 
@@ -47,6 +50,9 @@ app.get('/', (req,res) => {
 app.use('/auth', authController);
 app.use('/users', userController);
 app.use('/profiles', profileController);
+app.use('/forums', forumController);
+app.use('/topics', topicController);
+app.use('/comments', commentController);
 
 
 
