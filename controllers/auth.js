@@ -41,7 +41,8 @@ router.post('/sign-up', async (req, res) => {
 
         const profile = await Profile.create({
             userId: user._id,
-            displayName
+            displayName: req.body.displayname,
+            bio: req.body.bio,
         });
 
         user.profile = profile._id;

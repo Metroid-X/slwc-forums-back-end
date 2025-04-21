@@ -10,6 +10,10 @@ const CommentSchema = new Schema({
         ref: 'Profile',
         required: true,
     },
+    body: {
+        type: String,
+        required: true,
+    },
     linkedImages: [
         {
             type: Schema.Types.ObjectId,
@@ -91,10 +95,6 @@ const TopicSchema = new Schema({
             required: true,
         }
     ],
-    forumName: {
-        type: String,
-        required: true,
-    },
 });
 
 TopicSchema.set('toJSON', {});
