@@ -2,19 +2,13 @@ const express = require('express');
 const router = express.Router();
 const app = express();
 
-const { mongoose, Schema } = require('../homebrew-funcs')
-
-const { User } = require('../models/user');
-const { Profile } = require('../models/user');
-const { Topic, Comment, Forum } = require('../models/forum');
 const { Image } = require('../models/image');
 const verifyToken = require('../middleware/verify-token');
-const { Mongoose } = require('mongoose');
 
 router.get('/', async (req,res) => {
     try {
-        const topics = await Topic.find()
-        res.json(topics);
+        const images = await Image.find()
+        res.json(images);
     } catch (err) {
         res.status(500).json({ err: err.message });
     }
@@ -22,7 +16,7 @@ router.get('/', async (req,res) => {
 
 router.post('/new', verifyToken, async (req, res) => {
     try {
-        const topic = await Topic.create({
+        const image = await Image.create({
             userId: req.user.profile,
             title: req.body.title,
             datePosted: Date.now(),
@@ -30,15 +24,7 @@ router.post('/new', verifyToken, async (req, res) => {
             forumName: req.body.forumName,
         });
 
-        const firstComment = await Comment.create({
-            userId: req.user.profile,
-            body: req.body.bodyContent,
-            datePosted: Date.now(),
-            topicId: topic._id,
-            linkedImages: [...req.body.linkedImages.split(' ')],
-        })
-
-        res.status(201).json(topic);
+        res.status(201).json(image);
     } catch (err) {
         res.status(500).json({ err: err.message });
     };

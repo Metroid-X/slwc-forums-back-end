@@ -4,12 +4,26 @@ const app = express();
 
 const { User } = require('../models/user');
 const { Profile } = require('../models/user');
-const { Forum } = require('../models/forum');
+const { Forum, Topic } = require('../models/forum');
 
 router.get('/', async (req,res) => {
     try {
-        const forums = await Forum.find()
+        const forums = await Forum.find();
         res.json(forums);
+    } catch (err) {
+        res.status(500).json({ err: err.message });
+    }
+});
+
+// this may later be used in place of the current front-end method of forum-specific conditional topic-rendering
+router.get('/:branchName', async (req,res) => {
+    try {
+        const foundForum = await Forum.findOne({name: req.params.branchName});
+        const topics = await Topic.find();
+
+        const branchTopics = topics.filter(topic => topic.forumId === foundForum._id)
+
+        res.json(branchTopics);
     } catch (err) {
         res.status(500).json({ err: err.message });
     }

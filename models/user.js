@@ -10,11 +10,6 @@ const ProfileSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    profileCompleted: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
     displayName: {
         type: String,
         required: false,
@@ -29,40 +24,18 @@ const ProfileSchema = new Schema({
         required: true,
         default: 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg',
     },
-    topicsPosted: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Topic',
-        required: true,
-    }],
-    commentsPosted: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment',
-        required: true,
-    }],
-    linkedImages: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Image',
-        required: true,
-    }],
     catchphrase: {
         type: String,
         required: false,
     },
-    followers: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Profile',
-        required: true,
-    }],
-    following: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Profile',
-        required: true,
-    }],
-    followedTopics: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Topic',
-        required: true,
-    }],
+    followers: {
+        type: Array,
+        required: false,
+    },
+    following: {
+        type: Array,
+        required: false,
+    },
 })
 
 ProfileSchema.set('toJSON', {

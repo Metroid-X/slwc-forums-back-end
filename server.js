@@ -13,6 +13,7 @@ const profileController = require('./controllers/profiles.js')
 const forumController = require('./controllers/forums.js')
 const topicController = require('./controllers/topics.js')
 const commentController = require('./controllers/comments.js')
+const imageController = require('./controllers/images.js')
 
 const app = express();
 const port = process.env.PORT || 3000; 
@@ -53,6 +54,7 @@ app.use('/profiles', profileController);
 app.use('/forums', forumController);
 app.use('/topics', topicController);
 app.use('/comments', commentController);
+app.use('/images', imageController);
 
 
 

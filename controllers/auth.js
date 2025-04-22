@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/user');
-const { Profile } = require('../models/user')
+const { Profile } = require('../models/user');
+const { default: mongoose } = require("mongoose");
 
 const saltRounds = 12;
 
@@ -34,21 +35,25 @@ router.post('/sign-up', async (req, res) => {
             return res.status(409).json({err: 'Username already taken.'});
         };
         
+        const profileId = new mongoose.Types.ObjectId;
+
         const user = await User.create({
             username: req.body.username,
-            hashedPassword: bcrypt.hashSync(req.body.password, saltRounds)
+            hashedPassword: bcrypt.hashSync(req.body.password, saltRounds),
+            profile: profileId,
         });
 
         const profile = await Profile.create({
+            _id: profileId,
             userId: user._id,
-            displayName: req.body.displayname,
+            displayName: req.body.displayname===''?(req.body.displayName):(req.body.username),
             bio: req.body.bio,
         });
 
         user.profile = profile._id;
         
         if (user.profile === profile._id) {
-            const payload = { username: user.username, _id: user._id, profile_id: user.profile };
+            const payload = { username: user.username, _id: user._id, profile: user.profile };
         
             const token = jwt.sign({ payload }, process.env.JWT_SECRET);
 
@@ -77,7 +82,7 @@ router.post('/sign-in', async (req, res) => {
             return res.status(401).json({ err: 'Invalid credentials.' });
         };
     
-        const payload = { username: user.username, _id: user._id, profile_id: user.profile };
+        const payload = { username: user.username, _id: user._id, profile: user.profile };
     
         const token = jwt.sign({ payload }, process.env.JWT_SECRET);
     
