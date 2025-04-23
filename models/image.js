@@ -9,21 +9,6 @@ const ImageSchema = new Schema({
         ref: 'Profile',
         required: true,
     },
-    forumId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Forum',
-        required: true,
-    },
-    topicId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Topic',
-        required: true,
-    },
-    commentid: {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment',
-        required: true,
-    },
     imageURL: {
         type: String,
         required: true,
@@ -32,6 +17,23 @@ const ImageSchema = new Schema({
         type: Date,
         required: true,
         default: Date.now(),
+    },
+    dateUpdated: {
+        type: Date,
+        required: false,
+    },
+    description: {
+        type: String,
+        required: false,
+    },
+    uploadByUser: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    tags: {
+        type: [String],
+        required: false,
     },
 })
 

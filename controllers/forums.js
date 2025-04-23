@@ -18,12 +18,8 @@ router.get('/', async (req,res) => {
 // this may later be used in place of the current front-end method of forum-specific conditional topic-rendering
 router.get('/:branchName', async (req,res) => {
     try {
-        const foundForum = await Forum.findOne({name: req.params.branchName});
-        const topics = await Topic.find();
 
-        const branchTopics = topics.filter(topic => topic.forumId === foundForum._id)
-
-        res.json(branchTopics);
+        res.json({});
     } catch (err) {
         res.status(500).json({ err: err.message });
     }

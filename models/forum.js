@@ -5,6 +5,11 @@ const { Schema , model } = require('../homebrew-funcs.js');
 
 
 const CommentSchema = new Schema({
+    isTopicBody: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'Profile',
@@ -17,6 +22,7 @@ const CommentSchema = new Schema({
     linkedImages: {
         type: Array,
         required: false,
+        default: [],
     },
     topicId: {
         type: Schema.Types.ObjectId,
@@ -42,7 +48,7 @@ const TopicSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'Profile',
-        required: false,
+        required: true,
     },
     title: {
         type: String,
@@ -60,6 +66,22 @@ const TopicSchema = new Schema({
     forumName: {
         type: String,
         required: true,
+    },
+    forumId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Forum',
+        required: true,
+    },
+    followers: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Profile',
+        required: false,
+        default: [],
+    },
+    tags: {
+        type: [String],
+        required: false,
+        default: [],
     },
 });
 

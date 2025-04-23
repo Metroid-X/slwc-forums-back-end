@@ -7,6 +7,7 @@ const { Profile } = require('../models/user');
 
 const verifyToken = require('../middleware/verify-token');
 
+// GET ALL
 router.get('/', async (req,res) => {
     try {
         const profiles = await Profile.find({}, 'userId displayName bio avatar linkedImages commentsPosted topicsPosted catchphrase');
@@ -17,18 +18,21 @@ router.get('/', async (req,res) => {
     }
 });
 
-router.get('/:userName', verifyToken, async (req,res) => {
-    try {
-        const profileUser = await User.findOne({username: req.params.userName})
-        const profileDisplay = await Profile.findOne({userId: profileUser._id})
 
-        res.json({profileUser, profileDisplay});
+// SHOW ONE
+router.get('/:profileId', async (req,res) => {
+    try {
+        const profileDisplay = await Profile.findById(req.params.profileId);
+        console.log()
+        res.json(profileDisplay);
     } catch (err) {
         res.status(500).json({ err: err.message });
     }
 });
 
-router.post('/:userName/edit', verifyToken, async (req,res) => {
+
+// UPDATE ONE
+router.post('/:profileId/edit', verifyToken, async (req,res) => {
     try {
         const profileUser = await User.findOne({ username: req.params.userName });
         const user = await User.findById(req.user._id);

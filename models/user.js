@@ -29,12 +29,16 @@ const ProfileSchema = new Schema({
         required: false,
     },
     followers: {
-        type: Array,
+        type: [Schema.Types.ObjectId],
+        ref: 'Profile',
         required: false,
+        default: [],
     },
     following: {
-        type: Array,
+        type: [Schema.Types.ObjectId],
+        ref: 'Profile',
         required: false,
+        default: [],
     },
 })
 
