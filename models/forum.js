@@ -5,11 +5,6 @@ const { Schema , model } = require('../homebrew-funcs.js');
 
 
 const CommentSchema = new Schema({
-    isTopicBody: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'Profile',
@@ -53,6 +48,15 @@ const TopicSchema = new Schema({
     title: {
         type: String,
         required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    linkedImages: {
+        type: Array,
+        required: false,
+        default: [],
     },
     datePosted: {
         type: Date,

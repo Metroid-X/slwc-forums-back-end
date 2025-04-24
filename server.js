@@ -6,14 +6,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
 const { setRoute } = require('./homebrew-funcs.js');
-// const setRoute = homebrew.setRoute;
-const authController = require('./controllers/auth.js')
-const userController = require('./controllers/users.js')
-const profileController = require('./controllers/profiles.js')
-const forumController = require('./controllers/forums.js')
-const topicController = require('./controllers/topics.js')
-const commentController = require('./controllers/comments.js')
-const imageController = require('./controllers/images.js')
+
+const authController = require('./controllers/auth.js');
+const userController = require('./controllers/users.js');
+const profileController = require('./controllers/profiles.js');
+const forumController = require('./controllers/forums.js');
+const topicController = require('./controllers/topics.js');
+const commentController = require('./controllers/comments.js');
+// const imageController = require('./controllers/images.js');
 
 const app = express();
 const port = process.env.PORT || 3000; 
@@ -41,8 +41,7 @@ app.get('/', (req,res) => {
             ${setRoute('users', 2)}
             ${setRoute('profiles', 2)}
             ${setRoute('auth', 2)}
-            ${setRoute('forum', 2)}
-            ${setRoute('gallery', 2)}
+            ${setRoute('forums', 2)}
         </ul>
     `
     res.send(backendInterface);
@@ -54,7 +53,10 @@ app.use('/profiles', profileController);
 app.use('/forums', forumController);
 app.use('/topics', topicController);
 app.use('/comments', commentController);
-app.use('/images', imageController);
+// app.use('/images', imageController);
+// In order to meet some standard of MVP requirement, the Image model and all
+// of its surrounding relations and functionality have been re-assigned to being 
+// stretch-goals/gold-plating and have thus been put on the backburner.
 
 
 
