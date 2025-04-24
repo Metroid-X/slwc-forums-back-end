@@ -51,14 +51,14 @@ router.get('/search/query', async (req,res) => {
     try {
 
         
-        if (req.query.t) {
-            const topicsResult = await Topic.find()
-            .where('tags').all(req.query.t?req.query.t:''.split(' '));
-            res.status(200).json(topicsResult);
-        } else {
-            const topicsResult = await Topic.find();
-            res.status(200).json(topicsResult);
-        }
+        const topicsResult = req.query.t?(
+            await Topic.find()
+            .where('tags').all(req.query.t?req.query.t:''.split(' '))
+        ):(
+            await Topic.find()
+        )
+        
+        res.status(200).json(topicsResult);
     
     } catch (err) {
         res.status(500).json({ err: err.message });
