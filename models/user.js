@@ -40,6 +40,15 @@ const ProfileSchema = new Schema({
         required: false,
         default: [],
     },
+    joinDate: {
+        type: Date,
+        required: true,
+        default: Date.now(),
+    },
+    dateUpdated: {
+        type: Date,
+        required: false,
+    },
 })
 
 ProfileSchema.set('toJSON', {

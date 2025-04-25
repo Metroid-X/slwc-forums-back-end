@@ -32,11 +32,21 @@ router.get('/:profileId', async (req,res) => {
 
 
 // UPDATE ONE
-router.post('/:profileId/edit', verifyToken, async (req,res) => {
+router.put('/:profileId/edit', verifyToken, async (req,res) => {
     try {
-        const profileUser = await User.findOne({ username: req.params.userName });
-        const user = await User.findById(req.user._id);
-        const profile = await Profile.findById(user.profile);
+        const profileDisplay = await Profile.findByIdAndUpdate(
+            req.params.profileId,
+            {
+                displayName: req.body.displayName,
+                avatar: req.body.avatar,
+                bio: req.body.bio,
+                dateUpdated: Date.now(),
+            },
+            {
+                new: true,
+            }
+        );
+        res.json(profileDisplay);
     } catch (err) {
         console.log(err);
     }

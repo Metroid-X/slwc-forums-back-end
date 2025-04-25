@@ -4,11 +4,23 @@ const app = express();
 
 const { User } = require('../models/user');
 const { Profile } = require('../models/user');
-const { Forum, Topic } = require('../models/forum');
+const { Forum, Topic, Comment } = require('../models/forum');
 
 router.get('/', async (req,res) => {
     try {
         const forums = await Forum.find();
+        res.json(forums);
+    } catch (err) {
+        res.status(500).json({ err: err.message });
+    };
+});
+
+router.get('/branches/get', async (req,res) => {
+    try {
+        const forums = await Forum.find();
+
+
+
         res.json(forums);
     } catch (err) {
         res.status(500).json({ err: err.message });
@@ -59,6 +71,24 @@ router.get('/search/query', async (req,res) => {
         )
         
         res.status(200).json(topicsResult);
+    
+    } catch (err) {
+        res.status(500).json({ err: err.message });
+    };
+});
+
+router.get('/search/query/:userId', async (req,res) => {
+    try {
+
+        const topicsResult = await Topic.find({
+            userId: req.params.userId,
+        });
+        
+        const commentsResult = await Comment.find({
+            userId: req.params.userId,
+        });
+
+        res.status(200).json({ topicsResult, commentsResult });
     
     } catch (err) {
         res.status(500).json({ err: err.message });

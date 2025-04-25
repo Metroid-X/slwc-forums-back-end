@@ -106,18 +106,6 @@ router.post('/new', verifyToken, async (req, res) => {
 });
 
 
-// CREATE COMMENT
-router.post('/get/:topicId', verifyToken, async (req, res) => {
-    try {
-        
-
-
-    } catch (err) {
-        res.status(500).json({ err: err.message });
-    };
-});
-
-
 // UPDATE
 router.put('/update/:topicId', verifyToken, async (req, res) => {
     try {
